@@ -7,6 +7,8 @@ import { getEphemeralVmsSearchEntry } from '../virtual-machines/recipes/ephemera
 import { getBrowserExtensionsExperimentalSearchEntry } from '../browser/extensions/browser-extensions-experimental-search'
 import { getWslHostsExperimentalSearchEntry } from '../wsl/hosts/wsl-hosts-experimental-search'
 import { getOrchestrationPanelExperimentalSearchEntry } from '../orchestration/orchestration-panel-experimental-search'
+import { isWebClientLocation } from '@/lib/web-client-location'
+import { getBrowserPasswordsExperimentalSearchEntry } from '../browser/passwords/browser-passwords-experimental-search'
 
 export const getExperimentalPaneSearchEntries = createLocalizedCatalog(
   (): SettingsSearchEntry[] => [
@@ -184,6 +186,7 @@ export const getExperimentalPaneSearchEntries = createLocalizedCatalog(
     getEphemeralVmsSearchEntry(),
     getBrowserExtensionsExperimentalSearchEntry(),
     getOrchestrationPanelExperimentalSearchEntry(),
+    ...(isWebClientLocation() ? [] : [getBrowserPasswordsExperimentalSearchEntry()]),
     // Index WSL toggles only on Windows desktops that expose them.
     ...(typeof window !== 'undefined' && window.api?.runtimeEnvironments?.wslHosts
       ? [getWslHostsExperimentalSearchEntry()]

@@ -14,6 +14,9 @@ import { BrowserExtensionsExperimentalSetting } from '../browser/extensions/Brow
 import { OrchestrationPanelExperimentalSetting } from '../orchestration/OrchestrationPanelExperimentalSetting'
 import { WslHostsExperimentalSetting } from '../wsl/hosts/WslHostsExperimentalSetting'
 import { wslHostsAvailable } from '../../sidebar/use-wsl-hosts-enabled'
+import { isWebClientLocation } from '@/lib/web-client-location'
+import { BrowserPasswordsExperimentalSetting } from '../browser/passwords/BrowserPasswordsExperimentalSetting'
+import { getBrowserPasswordsExperimentalSearchEntry } from '../browser/passwords/browser-passwords-experimental-search'
 import {
   MAX_AGENT_HIBERNATION_IDLE_MS,
   MIN_AGENT_HIBERNATION_IDLE_MS,
@@ -48,6 +51,10 @@ export function ExperimentalPane({
   const showNewWorktreeCardStyle = matchesSettingsSearch(searchQuery, [
     getExperimentalSearchEntry().newWorktreeCardStyle
   ])
+  // Why desktop only: the vault and its Browser settings exist only where Orca hosts pages.
+  const showBrowserPasswords =
+    !isWebClientLocation() &&
+    matchesSettingsSearch(searchQuery, [getBrowserPasswordsExperimentalSearchEntry()])
   const agentHibernationEnabled = settings.experimentalAgentHibernation === true
   const newWorktreeCardStyleEnabled = settings.experimentalNewWorktreeCardStyle === true
   // Use the planner’s clamped millisecond value/default while editing minutes.
@@ -260,6 +267,9 @@ export function ExperimentalPane({
       <EphemeralVmsExperimentalSetting settings={settings} updateSettings={updateSettings} />
 
       <BrowserExtensionsExperimentalSetting settings={settings} updateSettings={updateSettings} />
+      {showBrowserPasswords ? (
+        <BrowserPasswordsExperimentalSetting settings={settings} updateSettings={updateSettings} />
+      ) : null}
 
       <OrchestrationPanelExperimentalSetting settings={settings} updateSettings={updateSettings} />
 

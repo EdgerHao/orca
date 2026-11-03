@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { SourceControlPrimaryActionDecisionInputs } from '../../../src/shared/source-control-primary-action-decision-types'
+import type { SourceControlPrimaryActionDecisionInputs } from '../../../src/shared/source-control/decisions/source-control-primary-action-decision-types'
 import {
   buildMobileSourceControlActions,
   type MobileSourceControlActionArgs

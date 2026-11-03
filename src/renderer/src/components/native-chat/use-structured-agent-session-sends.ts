@@ -120,6 +120,7 @@ export function useStructuredAgentSessionSends(args: {
         target,
         text,
         attachments,
+        ...(request?.prepareAttachments ? { prepareAttachments: request.prepareAttachments } : {}),
         ...(request?.callerKeepsText ? { callerKeepsText: request.callerKeepsText } : {}),
         ...(request?.usageLimitContinuationOfTurnItemId
           ? { usageLimitContinuationOfTurnItemId: request.usageLimitContinuationOfTurnItemId }

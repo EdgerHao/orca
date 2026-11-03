@@ -13,8 +13,14 @@ import {
   type StructuredAgentSessionPendingSend
 } from './structured-agent-session-pending-sends'
 
+export type StructuredAgentSessionAttachmentPreparation = (
+  input: { text: string; attachments?: readonly StructuredAgentSessionAttachment[] },
+  isCurrent: () => boolean
+) => Promise<{ text: string; attachments?: readonly StructuredAgentSessionAttachment[] }>
+
 export type StructuredAgentSessionSendInput = {
   sessionId: string
+  prepareAttachments?: StructuredAgentSessionAttachmentPreparation
   text: string
   attachments?: readonly StructuredAgentSessionAttachment[]
   /** Asks the host to hold it as a card while the agent works; decided once, at the send. */
@@ -34,7 +40,7 @@ export type StructuredAgentSessionSendInput = {
 
 export type StructuredAgentSessionSendRequest = Pick<
   StructuredAgentSessionSendInput,
-  'callerKeepsText' | 'usageLimitContinuationOfTurnItemId' | 'skills'
+  'callerKeepsText' | 'usageLimitContinuationOfTurnItemId' | 'skills' | 'prepareAttachments'
 > & {
   onSettled?: (outcome: StructuredAgentSessionSendOutcome) => void
   /** Do the other thing than the follow-up setting: Cmd/Ctrl+Enter, or the phone's hold menu. */

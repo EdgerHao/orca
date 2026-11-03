@@ -56,7 +56,9 @@ async function openInFileManager(
   }
 }
 
-type ShellHandlerStore = Pick<Store, 'getSshTarget' | 'getSettings'>
+type ShellHandlerStore = Pick<Store, 'getSshTarget'> & {
+  getSettings: () => Pick<ReturnType<Store['getSettings']>, 'openInApplications'>
+}
 
 async function openInExternalEditor(
   store: ShellHandlerStore,

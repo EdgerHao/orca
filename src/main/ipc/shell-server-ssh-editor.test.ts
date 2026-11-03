@@ -83,7 +83,7 @@ describe('Open in VS Code for a workspace on a server Orca reaches through an SS
     request: { connectionId: string; ownerHostId: string }
   ): Promise<unknown> {
     registerShellHandlers(
-      { getSshTarget: (id) => targets.get(id), getSettings: () => ({}) as never },
+      { getSshTarget: (id) => targets.get(id), getSettings: () => ({ openInApplications: [] }) },
       listRuntimeEnvironments
     )
     const call = handleMock.mock.calls.find((entry) => entry[0] === 'shell:openInExternalEditor')
